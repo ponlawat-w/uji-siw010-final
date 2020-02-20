@@ -418,13 +418,13 @@ contour(
 
 plot(
   pred.Bayes,
-  type = 'exceedance.prob',
+  summary = 'exceedance.prob',
   zlim = c(0, 1),
   main = 'Prevalence - exceedance probabilities\n(Bayesian analysis)'
 );
 contour(
   pred.Bayes,
-  type = 'exceedance.prob',
+  summary = 'exceedance.prob',
   levels = c(0.1, 0.4, 0.5, 0.7),
   add = TRUE
 );

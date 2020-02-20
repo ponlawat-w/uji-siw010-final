@@ -1,19 +1,22 @@
 # {Preparation}
 
+library('PrevMap');
+library('geoR');
+
 data('data_sim');
 # Load data
 
 knots1 <- expand.grid(
   seq(-0.2, 1.2, length = 5),
-  seq(-0.2, 1.2, lenfth = 5)
+  seq(-0.2, 1.2, length = 5)
 );
 knots2 <- expand.grid(
   seq(-0.2, 1.2, length = 10),
-  seq(-0.2, 1.2, lenfth = 10)
+  seq(-0.2, 1.2, length = 10)
 );
-knots1 <- expand.grid(
+knots3 <- expand.grid(
   seq(-0.2, 1.2, length = 15),
-  seq(-0.2, 1.2, lenfth = 15)
+  seq(-0.2, 1.2, length = 15)
 );
 
 # {MCML}
@@ -98,7 +101,7 @@ system.time(fit.MCML.lr3 <- binomial.logistic.MCML(
 ));
 ##004
 
-par.hat <- coef(fir.MCML.exact);
+par.hat <- coef(fit.MCML.exact);
 Sigma.hat <- varcov.spatial(
   coords = data_sim[c('x1', 'x2')],
   cov.pars = par.hat[2:3],
@@ -107,7 +110,7 @@ Sigma.hat <- varcov.spatial(
 mu.hat = rep(par.hat[1], nrow(data_sim));
 system.time(S.cond.sim <- Laplace.sampling(
   mu = mu.hat,
-  sigma = Sigma.hat,
+  Sigma = Sigma.hat,
   y = data_sim$y,
   units.m = data_sim$units.m,
   control.mcmc = exact.mcmc,
@@ -154,8 +157,7 @@ system.time(pred.MCML.lr3 <- spatial.pred.binomial.MCML(
 par(mfrow = c(2, 2), mar = c(3, 4, 3, 4));
 
 r.exact <- rasterFromXYZ(
-  cbind(data_sim[, c('x1', 'x2')])
-  prevalence.exact
+  cbind(data_sim[, c('x1', 'x2')], prevalence.exact)
 );
 plot(r.exact, zlim = c(0, 1), main = 'Exact method');
 contour(r.exact, levels = seq(0.1, 0.9, 0.1), add = TRUE);
@@ -207,3 +209,4 @@ contour(
   levels = seq(0.1, 0.9, 0.1),
   add = TRUE
 );
+#009
